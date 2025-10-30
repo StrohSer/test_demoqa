@@ -1,8 +1,10 @@
 package pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class FormsPage extends BasePage {
     
@@ -111,15 +113,30 @@ public class FormsPage extends BasePage {
     }
 
     public void submitForm() {
-        click(submitButton);
+        // Используем JavaScript для прокрутки и клика, так как кнопка может быть вне видимости
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(true);", submitButton);
+        wait.until(ExpectedConditions.elementToBeClickable(submitButton));
+        js.executeScript("arguments[0].click();", submitButton);
     }
 
     public boolean isModalDisplayed() {
-        return isElementDisplayed(modalTitle);
+        try {
+            wait.until(ExpectedConditions.presenceOfElementLocated(
+                org.openqa.selenium.By.id("example-modal-sizes-title-lg")));
+            return isElementDisplayed(modalTitle);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public String getModalTitle() {
-        return getText(modalTitle);
+        try {
+            wait.until(ExpectedConditions.visibilityOf(modalTitle));
+            return getText(modalTitle);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public java.util.List<WebElement> getModalTableCells() {

@@ -3,8 +3,7 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CheckBoxPage extends BasePage {
     
@@ -14,19 +13,16 @@ public class CheckBoxPage extends BasePage {
     @FindBy(xpath = "//button[@title='Collapse all']")
     private WebElement collapseAllButton;
     
-    @FindBy(xpath = "//span[contains(@class, 'rct-checkbox')]")
-    private List<WebElement> checkboxes;
-    
-    @FindBy(xpath = "//span[text()='Home']/ancestor::span[contains(@class, 'rct-text')]//span[contains(@class, 'rct-checkbox')]")
+    @FindBy(xpath = "//label[@for='tree-node-home']")
     private WebElement homeCheckbox;
     
-    @FindBy(xpath = "//span[text()='Desktop']/ancestor::span[contains(@class, 'rct-text')]//span[contains(@class, 'rct-checkbox')]")
+    @FindBy(xpath = "//label[@for='tree-node-desktop']")
     private WebElement desktopCheckbox;
     
-    @FindBy(xpath = "//span[text()='Documents']/ancestor::span[contains(@class, 'rct-text')]//span[contains(@class, 'rct-checkbox')]")
+    @FindBy(xpath = "//label[@for='tree-node-documents']")
     private WebElement documentsCheckbox;
     
-    @FindBy(xpath = "//span[text()='Downloads']/ancestor::span[contains(@class, 'rct-text')]//span[contains(@class, 'rct-checkbox')]")
+    @FindBy(xpath = "//label[@for='tree-node-downloads']")
     private WebElement downloadsCheckbox;
     
     @FindBy(id = "result")
@@ -37,35 +33,80 @@ public class CheckBoxPage extends BasePage {
     }
 
     public void expandAll() {
-        click(expandAllButton);
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(expandAllButton));
+            click(expandAllButton);
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            // Если кнопка уже нажата или не найдена, продолжаем
+        }
     }
 
     public void collapseAll() {
-        click(collapseAllButton);
+        try {
+            click(collapseAllButton);
+        } catch (Exception e) {
+            // Если кнопка уже нажата или не найдена, продолжаем
+        }
     }
 
     public void clickHomeCheckbox() {
-        click(homeCheckbox);
+        try {
+            click(homeCheckbox);
+        } catch (Exception e) {
+            org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
+            js.executeScript("arguments[0].click();", homeCheckbox);
+        }
     }
 
     public void clickDesktopCheckbox() {
-        click(desktopCheckbox);
+        try {
+            click(desktopCheckbox);
+        } catch (Exception e) {
+            org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
+            js.executeScript("arguments[0].click();", desktopCheckbox);
+        }
     }
 
     public void clickDocumentsCheckbox() {
-        click(documentsCheckbox);
+        try {
+            click(documentsCheckbox);
+        } catch (Exception e) {
+            org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
+            js.executeScript("arguments[0].click();", documentsCheckbox);
+        }
     }
 
     public void clickDownloadsCheckbox() {
-        click(downloadsCheckbox);
+        try {
+            click(downloadsCheckbox);
+        } catch (Exception e) {
+            org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
+            js.executeScript("arguments[0].click();", downloadsCheckbox);
+        }
     }
 
     public String getResultText() {
-        return getText(resultText);
+        try {
+            wait.until(ExpectedConditions.presenceOfElementLocated(
+                org.openqa.selenium.By.id("result")));
+            WebElement result = driver.findElement(org.openqa.selenium.By.id("result"));
+            return getText(result);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public boolean isResultDisplayed() {
-        return isElementDisplayed(resultText);
+        try {
+            WebElement result = wait.until(ExpectedConditions.presenceOfElementLocated(
+                org.openqa.selenium.By.id("result")));
+            return result.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
 
