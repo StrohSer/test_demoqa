@@ -10,7 +10,6 @@ public class CheckBoxTest extends BaseTest {
     public void testSelectHomeCheckbox() {
         driver.get(BASE_URL + "/checkbox");
         CheckBoxPage checkBoxPage = new CheckBoxPage(driver);
-
         checkBoxPage.expandAll();
         checkBoxPage.clickHomeCheckbox();
 

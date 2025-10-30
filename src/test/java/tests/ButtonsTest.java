@@ -37,7 +37,6 @@ public class ButtonsTest extends BaseTest {
         driver.get(BASE_URL + "/buttons");
         ButtonsPage buttonsPage = new ButtonsPage(driver);
         buttonsPage.clickMeButton();
-
         Assert.assertTrue(buttonsPage.isDynamicClickMessageDisplayed(), 
                 "Dynamic click message should be displayed");
         String message = buttonsPage.getDynamicClickMessage();

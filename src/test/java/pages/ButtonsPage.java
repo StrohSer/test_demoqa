@@ -1,4 +1,4 @@
-package org.example.pages;
+package pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -74,3 +74,4 @@ public class ButtonsPage extends BasePage {
         return isElementDisplayed(dynamicClickMessage);
     }
 }
+

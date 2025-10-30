@@ -28,7 +28,6 @@ public class FormsTest extends BaseTest {
         ((org.openqa.selenium.JavascriptExecutor) driver)
                 .executeScript("arguments[0].scrollIntoView(true);", 
                         driver.findElement(org.openqa.selenium.By.id("submit")));
-        
         formsPage.submitForm();
 
         Assert.assertTrue(formsPage.isModalDisplayed(), "Modal should be displayed");

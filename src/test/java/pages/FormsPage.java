@@ -1,10 +1,8 @@
-package org.example.pages;
+package pages;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class FormsPage extends BasePage {
     
@@ -52,6 +50,9 @@ public class FormsPage extends BasePage {
     
     @FindBy(id = "example-modal-sizes-title-lg")
     private WebElement modalTitle;
+    
+    @FindBy(xpath = "//table//td")
+    private java.util.List<WebElement> modalTableCells;
 
     public FormsPage(WebDriver driver) {
         super(driver);
@@ -110,29 +111,19 @@ public class FormsPage extends BasePage {
     }
 
     public void submitForm() {
-        // Используем JavaScript для прокрутки и клика, так как кнопка может быть вне видимости
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(true);", submitButton);
-        wait.until(ExpectedConditions.elementToBeClickable(submitButton));
-        js.executeScript("arguments[0].click();", submitButton);
+        click(submitButton);
     }
 
     public boolean isModalDisplayed() {
-        try {
-            wait.until(ExpectedConditions.presenceOfElementLocated(
-                org.openqa.selenium.By.id("example-modal-sizes-title-lg")));
-            return isElementDisplayed(modalTitle);
-        } catch (Exception e) {
-            return false;
-        }
+        return isElementDisplayed(modalTitle);
     }
 
     public String getModalTitle() {
-        try {
-            wait.until(ExpectedConditions.visibilityOf(modalTitle));
-            return getText(modalTitle);
-        } catch (Exception e) {
-            return "";
-        }
+        return getText(modalTitle);
+    }
+
+    public java.util.List<WebElement> getModalTableCells() {
+        return modalTableCells;
     }
 }
+
